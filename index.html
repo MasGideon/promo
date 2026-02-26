@@ -3,32 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GsPromoter | Best Amazon Deals</title>
+    <title>GsPromoter | Elite Amazon Deals</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        /* Futuristic Font */
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap');
 
         :root {
-            --primary-color: #ff9900; 
-            --primary-hover: #e38800;
-            --bg-light: #f8f9fa;
-            --nav-bg: rgba(19, 25, 33, 0.85);
-            --text-dark: #1a1a1a;
-            --text-muted: #666;
+            /* Core Theme Colors (Static) */
+            --cyber-red: #e60000;
+            --dark-red: #8b0000;
+            --neon-gold: #ffcc00;
+            --metallic-gold: #d4af37;
+            
+            /* Light Theme Variables */
+            --bg-color: #f4f4f9;
+            --card-bg: #ffffff;
+            --text-color: #0a0a0a;
+            --text-muted: #555555;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --nav-shadow: rgba(0, 0, 0, 0.05);
+            --card-border: rgba(0,0,0,0.05);
+            --card-shadow: rgba(0,0,0,0.05);
+        }
+
+        /* Dark Theme Variables */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --card-bg: #141414;
+            --text-color: #f4f4f9;
+            --text-muted: #aaaaaa;
+            --glass-bg: rgba(15, 15, 15, 0.85);
+            --nav-shadow: rgba(255, 204, 0, 0.1);
+            --card-border: rgba(255,255,255,0.08);
+            --card-shadow: rgba(0,0,0,0.6);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             box-sizing: border-box;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(230, 0, 0, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 25%);
         }
 
         /* --- Navigation Bar --- */
         nav {
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
@@ -36,54 +67,123 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--neon-gold);
+            box-shadow: 0 4px 20px var(--nav-shadow);
+            transition: background-color 0.4s ease;
         }
 
         .nav-logo {
             display: flex;
             align-items: center;
-            color: white;
+            color: var(--cyber-red);
             text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .nav-logo img {
             height: 35px;
             margin-right: 12px;
             border-radius: 8px;
+            border: 1px solid var(--neon-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
         .nav-links a {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-color);
             text-decoration: none;
-            margin-left: 25px;
             font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.2s ease;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--cyber-red);
+            transition: width 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: var(--cyber-red);
+            text-shadow: 0 0 8px rgba(230, 0, 0, 0.3);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--neon-gold);
+            color: var(--neon-gold);
+            transform: scale(1.1);
         }
 
         /* --- Hero Section --- */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80');
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.95), rgba(230, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 100px 20px 60px;
+            background-attachment: fixed;
+            color: #ffffff;
+            padding: 120px 20px 80px;
             text-align: center;
+            border-bottom: 3px solid var(--metallic-gold);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
+            font-size: 4rem;
+            font-weight: 700;
             margin: 0 0 40px 0;
-            letter-spacing: -1px;
-            line-height: 1.2;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            animation: fadeInDown 1s ease-out forwards;
+        }
+
+        /* --- Scroll Reveal Animation Classes --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- Steps Section --- */
@@ -91,78 +191,114 @@
             display: flex;
             justify-content: center;
             gap: 30px;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             flex-wrap: wrap;
         }
 
         .step-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
+            border-radius: 16px;
             width: 260px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            transition: all 0.4s ease, transform 0.8s cubic-bezier(0.5, 0, 0, 1), opacity 0.8s ease;
         }
 
-        .step-box:hover { transform: translateY(-5px); }
+        .step-box:hover { 
+            transform: translateY(-10px) !important;
+            border-color: var(--neon-gold);
+            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         .step-number {
-            background: var(--primary-color);
+            background: linear-gradient(45deg, var(--metallic-gold), var(--neon-gold));
             color: #000;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 700;
+            font-size: 1.2rem;
             margin: 0 auto 15px;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .step-box p { font-size: 0.95rem; font-weight: 600; margin: 0; line-height: 1.4; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .step-box p { font-size: 1.1rem; font-weight: 600; margin: 0; line-height: 1.4; letter-spacing: 0.5px; color: #fff;}
 
         /* --- Deals Grid --- */
         .deals-container {
             max-width: 1400px;
-            margin: 60px auto;
+            margin: 80px auto;
             padding: 0 30px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
+            gap: 30px;
         }
 
         .deal-card {
-            background: white;
-            border-radius: 16px;
+            background: var(--card-bg);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px var(--card-shadow);
+            border: 1px solid var(--card-border);
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .deal-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-red), var(--neon-gold));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
 
         .deal-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            transform: translateY(-12px) scale(1.02) !important;
+            box-shadow: 0 20px 40px rgba(230, 0, 0, 0.15);
         }
+
+        .deal-card:hover::before { opacity: 1; }
 
         .deal-image {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: contain;
-            background: white;
+            background: #ffffff; /* keep images white background */
             padding: 20px;
             box-sizing: border-box;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid var(--card-border);
             cursor: zoom-in;
+            transition: transform 0.3s ease;
         }
 
+        .deal-card:hover .deal-image { transform: scale(1.05); }
+
         .deal-info {
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -170,33 +306,69 @@
 
         .deal-info h3 {
             margin: 0 0 10px 0;
-            font-size: 1.1rem;
-            line-height: 1.4;
-            color: var(--text-dark);
+            font-size: 1.3rem;
+            line-height: 1.3;
+            color: var(--text-color);
+            font-weight: 700;
         }
 
         .deal-info p {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            margin: 0 0 20px 0;
+            margin: 0 0 25px 0;
             flex-grow: 1;
+            font-weight: 600;
         }
 
         .buy-btn {
             display: block;
-            background-color: var(--primary-color);
-            color: #111;
+            background: linear-gradient(90deg, var(--cyber-red), var(--dark-red));
+            color: #ffffff;
             text-align: center;
-            padding: 12px;
+            padding: 14px;
             text-decoration: none;
-            font-weight: 800;
-            font-size: 0.9rem;
-            border-radius: 10px;
-            transition: background-color 0.2s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
         }
 
         .buy-btn:hover {
-            background-color: var(--primary-hover);
+            background: linear-gradient(90deg, var(--neon-gold), var(--metallic-gold));
+            color: #000000;
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* --- Back to Top Button --- */
+        #backToTop {
+            display: none; 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            z-index: 99; 
+            font-size: 1.5rem; 
+            font-weight: 700;
+            border: none; 
+            outline: none; 
+            background: linear-gradient(45deg, var(--cyber-red), var(--metallic-gold)); 
+            color: #ffffff; 
+            cursor: pointer; 
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; 
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        #backToTop:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: linear-gradient(45deg, var(--neon-gold), var(--metallic-gold));
+            color: #000;
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.6);
         }
 
         /* --- Lightbox / Zoom Styles --- */
@@ -208,79 +380,84 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(10, 10, 10, 0.95);
             justify-content: center;
             align-items: center;
             cursor: zoom-out;
+            backdrop-filter: blur(5px);
         }
 
         #lightbox img {
             max-width: 90%;
             max-height: 85%;
             border-radius: 12px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(230, 0, 0, 0.3);
+            border: 2px solid var(--neon-gold);
         }
 
+        /* Responsive */
         @media (max-width: 1024px) {
             .deals-container { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 2.8rem; }
+            .hero h1 { font-size: 3rem; }
         }
 
         @media (max-width: 600px) {
             .deals-container { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
-            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links a { display: none; } /* Hide text links on mobile, keep toggle */
             .step-box { width: 100%; }
+            #backToTop { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 1.2rem;}
         }
 
         /* --- Footer --- */
         footer {
-            background-color: #131921;
-            color: #999;
+            background-color: #050505;
+            color: #ccc;
             padding: 60px 5% 40px;
             margin-top: 80px;
+            border-top: 3px solid var(--cyber-red);
         }
 
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .contact h3 { color: white; margin-top: 0; margin-bottom: 15px;}
+        .footer-content { max-width: 1400px; margin: 0 auto; }
         
-        .footer-links { display: flex; flex-direction: column; gap: 10px; }
-        .footer-links a { 
-            color: #ccc; 
-            text-decoration: none; 
-            font-size: 0.95rem; 
-            transition: color 0.2s;
+        .contact h3 { 
+            color: #ffffff; 
+            margin-top: 0; 
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .footer-links a:hover { color: var(--primary-color); }
+        
+        .footer-links-bottom { display: flex; flex-direction: column; gap: 12px; }
+        .footer-links-bottom a { 
+            color: #aaa; 
+            text-decoration: none; 
+            font-size: 1.1rem; 
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .footer-links-bottom a:hover { color: var(--neon-gold); }
 
         .disclaimer {
-            font-size: 0.8rem;
-            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
             padding-top: 20px;
-            margin-top: 20px;
+            margin-top: 30px;
             line-height: 1.6;
         }
 
         .designed-by {
             text-align: center;
             margin-top: 30px;
-            font-size: 0.75rem;
-            color: #555;
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .designed-by a {
-            color: #777;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .designed-by a:hover {
-            color: var(--primary-color);
-        }
+        .designed-by a { color: var(--cyber-red); text-decoration: none; font-weight: 700; }
+        .designed-by a:hover { color: var(--neon-gold); }
     </style>
 </head>
 <body>
@@ -293,22 +470,23 @@
         <div class="nav-links">
             <a href="https://www.instagram.com/gspromoter_159?igsh=MnJ5cnBpd2QycDMw&utm_source=qr" target="_blank">Instagram</a>
             <a href="https://discord.gg/SPtavyccBc" target="_blank">Discord</a>
+            <button id="theme-toggle" class="theme-toggle" title="Toggle Dark Mode">🌙</button>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>BEST PLACE TO GET THE LATEST OFFERS ON AMAZON !!</h1>
+        <h1>BEST PLACE TO GET THE LATEST OFFERS ON AMAZON</h1>
         
         <div class="steps-container">
-            <div class="step-box">
+            <div class="step-box reveal">
                 <div class="step-number">1</div>
                 <p>Browse our hand-picked deals below</p>
             </div>
-            <div class="step-box">
+            <div class="step-box reveal">
                 <div class="step-number">2</div>
                 <p>Click <b>"Check on Amazon"</b> to buy the product</p>
             </div>
-            <div class="step-box">
+            <div class="step-box reveal">
                 <div class="step-number">3</div>
                 <p>Enjoy your product at the best price!</p>
             </div>
@@ -316,7 +494,7 @@
     </section>
 
     <div class="deals-container">
-        <div class="deal-card">
+        <div class="deal-card reveal">
             <img src="pro1.png" alt="Safari Bag" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
                 <h3>Safari Pentagon Pro 8 Wheels Checkin Trolley Bag</h3>
@@ -325,7 +503,7 @@
             </div>
         </div>
 
-        <div class="deal-card">
+        <div class="deal-card reveal">
             <img src="pro2.png" alt="Mic" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
                 <h3>GRENARO Mic for YouTube Wireless</h3>
@@ -334,8 +512,8 @@
             </div>
         </div>
 
-        <div class="deal-card">
-            <img src="pro3.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro3.png" alt="Glue Gun" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
                 <h3>THEMISTO 20 Watt Mini Hot Melt Glue Gun</h3>
                 <p>Mini Hot Melt Glue Gun with 20W Power, 100g Capacity, 15mm Diameter.</p>
@@ -343,17 +521,17 @@
             </div>
         </div>
 
-        <div class="deal-card">
-            <img src="pro4.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro4.png" alt="CCTV" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
-                <h3>Trueview 2MP Smart CCTV Wi-fi Home Security Camera </h3>
-                <p>2MP HD Resolution, Wi-Fi Enabled, 360° Pan & Tilt, 2-Way Talk, Supports SD Card Up to 256 GB, Night Vision (2MP Color Night Vision Smart Camera)</p>
+                <h3>Trueview 2MP Smart CCTV Wi-fi Home Security Camera</h3>
+                <p>2MP HD Resolution, Wi-Fi Enabled, 360° Pan & Tilt, 2-Way Talk, Night Vision.</p>
                 <a href="https://amzn.to/4b81Vxc" class="buy-btn" target="_blank">Check on Amazon</a>
             </div>
         </div>
 
-               <div class="deal-card">
-            <img src="pro5.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro5.png" alt="Hooks" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
                 <h3>Plantex Wooden Wall Hanging Hook</h3>
                 <p>Wooden Wall Hanging Hook for Home Decor, 2 Pack, 100% Natural Wood.</p>
@@ -361,52 +539,53 @@
             </div>
         </div>
 
-               <div class="deal-card">
-            <img src="pro6.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro6.png" alt="Tshirts" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
-                <h3>London Hills Women's Cotton Oversized Fit Printed Tshirt Pack of 3</h3>
+                <h3>London Hills Women's Cotton Oversized Tshirt Pack of 3</h3>
                 <p>Soft Cotton Oversized Fit Printed T-shirts, 3-Pack, Available in Multiple Colors.</p>
                 <a href="https://amzn.to/400nABd" class="buy-btn" target="_blank">Check on Amazon</a>
             </div>
         </div>
 
-          <div class="deal-card">
-            <img src="pro7.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro7.png" alt="Watch" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
                 <h3>Fire-Boltt Phoenix Round Smart Watch 1.38″ HD Display</h3>
-                <p>Bluetooth Calling, SpO2 & Heart Rate Monitor, 120+ Sports Modes, IP67 Waterproof, Fitness Tracker Smartwatch for Men & Women - Grey</p>
+                <p>Bluetooth Calling, SpO2 & Heart Rate Monitor, 120+ Sports Modes, IP67 Waterproof.</p>
                 <a href="https://amzn.to/46oLcmO" class="buy-btn" target="_blank">Check on Amazon</a>
             </div>
         </div>
 
-         <div class="deal-card">
-            <img src="pro8.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro8.png" alt="Wallet" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
-                <h3>NAPA HIDE Leather Wallet for Men </h3>
-                <p>Leather Wallet for Men, 2019 Updated Design, 3 Card Slots, 1 Cash Pocket, 1 ID Slot, 1 Bill Pocket.</p>
+                <h3>NAPA HIDE Leather Wallet for Men</h3>
+                <p>Leather Wallet for Men, 2019 Updated Design, 3 Card Slots, 1 Cash Pocket, 1 ID Slot.</p>
                 <a href="https://amzn.to/4aND4gL" class="buy-btn" target="_blank">Check on Amazon</a>
             </div>
         </div>
 
-         <div class="deal-card">
-            <img src="pro9.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
+        <div class="deal-card reveal">
+            <img src="pro9.png" alt="Winter Cap" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
-                <h3>Fitness Mantra® Sports Winters Cap & Muffler for Men & Women </h3>
-                <p>Winter Sports Cap & Muffler for Men & Women, 100% Cotton, 2-in-1 Design, Warm & Comfortable 2 Colours Black & Grey.</p>
+                <h3>Fitness Mantra® Sports Winters Cap & Muffler</h3>
+                <p>Winter Sports Cap & Muffler for Men & Women, 100% Cotton, 2-in-1 Design.</p>
                 <a href="https://amzn.to/4cl9hi9" class="buy-btn" target="_blank">Check on Amazon</a>
             </div>
         </div>
 
-        <div class="deal-card">
+        <div class="deal-card reveal">
             <img src="LOADING.png" alt="Loading" class="deal-image" onclick="openZoom(this)">
             <div class="deal-info">
-                <h3>Loading </h3>
-                <p>Will Update Soon</p>
-                <a href="#" class="buy-btn" target="_blank">Check on Amazon</a>
+                <h3>Loading Upcoming Deals</h3>
+                <p>Will Update Soon. Stay tuned for more premium offers.</p>
+                <a href="#" class="buy-btn" target="_blank" style="pointer-events: none; opacity: 0.7;">Coming Soon</a>
             </div>
         </div>
-
     </div>
+
+    <button onclick="scrollToTop()" id="backToTop" title="Go to top">↑</button>
 
     <div id="lightbox" onclick="closeZoom()">
         <img id="lightbox-img" src="">
@@ -415,10 +594,10 @@
     <footer>
         <div class="footer-content">
             <div class="contact">
-                <h3>Contact</h3>
-                <div class="footer-links">
-                    <a href="https://www.instagram.com/gspromoter_159?igsh=MnJ5cnBpd2QycDMw&utm_source=qr" target="_blank">📷 Instagram</a>
-                    <a href="https://discord.gg/SPtavyccBc" target="_blank">💬 Discord (MasGideon)</a>
+                <h3>COMMUNICATIONS</h3>
+                <div class="footer-links-bottom">
+                    <a href="https://www.instagram.com/gspromoter_159?igsh=MnJ5cnBpd2QycDMw&utm_source=qr" target="_blank">📷 INSTAGRAM</a>
+                    <a href="https://discord.gg/SPtavyccBc" target="_blank">💬 DISCORD (MasGideon)</a>
                 </div>
             </div>
 
@@ -427,12 +606,49 @@
             </div>
 
             <div class="designed-by">
-                Designed by <a href="https://discord.gg/SPtavyccBc" target="_blank">GS Designs</a>
+                SYSTEM DESIGNED BY <a href="https://discord.gg/SPtavyccBc" target="_blank">GS DESIGNS</a>
             </div>
         </div>
     </footer>
 
     <script>
+        // --- Dark Mode Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check local storage for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggleBtn.innerHTML = '☀️';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.innerHTML = '🌙';
+            }
+        });
+
+        // --- Back to Top Logic ---
+        const backToTopBtn = document.getElementById("backToTop");
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Image Zoom Logic ---
         function openZoom(image) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
@@ -443,6 +659,28 @@
         function closeZoom() {
             document.getElementById('lightbox').style.display = 'none';
         }
+
+        // --- Scroll Reveal Animation Logic ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Combined Scroll Listener
+        window.addEventListener("scroll", () => {
+            reveal();
+            scrollFunction();
+        });
+        
+        // Trigger reveal on page load
+        reveal();
     </script>
 
 </body>
